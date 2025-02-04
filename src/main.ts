@@ -177,19 +177,24 @@ export default class TableOfContentsPlugin extends Plugin {
     settings: TableOfContentsPluginSettings | GetSettings = this.settings
   ) => () => {
     const activeView = this.app.workspace.getActiveViewOfType(MarkdownView);
-
     if (activeView && activeView.file) {
       const editor = activeView.editor;
-      const cursor = editor.getCursor();
+      // Get the actual cursor position for insertion
+      const insertionCursor = editor.getCursor();
+      // Use a fixed cursor at the start of the document for filtering headings
+      const filterCursor: CodeMirror.Position = { line: 0, ch: 0 };
+  
       const data = this.app.metadataCache.getFileCache(activeView.file) || {};
+      // Pass filterCursor so that createToc processes all headings
       const toc = createToc(
         data,
-        cursor,
-        typeof settings === "function" ? settings(data, cursor) : settings
+        filterCursor,
+        typeof settings === "function" ? settings(data, filterCursor) : settings
       );
-
+  
       if (toc) {
-        editor.replaceRange(toc, cursor);
+        // Insert the TOC at the actual cursor position
+        editor.replaceRange(toc, insertionCursor);
       }
     }
   };
