@@ -4,6 +4,7 @@
   "scripts": {
     "start": "obsidian-plugin dev src/main.ts",
     "build": "obsidian-plugin build src/main.ts",
+    "build-js": "webpack",
     "lint": "eslint . --ext .ts,.tsx --fix",
     "release": "auto shipit"
   },
@@ -27,7 +28,10 @@
     "obsidian": "obsidianmd/obsidian-api",
     "obsidian-plugin-cli": "^0.4.3",
     "prettier": "^2.2.1",
+    "ts-loader": "^9.5.2",
     "tslib": "^2.1.0",
-    "typescript": "^4.1.5"
+    "typescript": "^4.9.5",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1"
   }
 }

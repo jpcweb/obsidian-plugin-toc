@@ -22,6 +22,25 @@ And the following settings:
 | Minimum header depth | number               | 2          |
 | Maximum header depth | number               | 6          |
 
+## Build Process
+
+This project is bundled with webpack to produce a single, optimized `main.js` file compatible with Obsidian—and it has been configured to build properly on ARM-based systems (e.g. Mac M family).
+
+- **TypeScript Configuration:**  
+  - Removed the `"types": ["./src/anchor.d.ts"]` entry from `tsconfig.json` (to avoid type definition errors) and added `./src/anchor.d.ts` to the `"files"` array.
+  - This ensures all TypeScript files, including custom type definitions, are correctly compiled.
+
+- **Webpack Bundling:**  
+  - The `webpack.config.js` is set with `target: 'node'` and `libraryTarget: 'commonjs2'` so that the output is in CommonJS format.
+  - The `obsidian` module is marked as external (`externals: { obsidian: 'commonjs obsidian' }`), meaning it isn’t bundled and will be provided at runtime by Obsidian.
+
+- **Build Command:**  
+  Simply run the following command to generate the final `main.js`:
+
+  ```bash
+  npm run build-js
+  ```
+
 ## Usage
 
 This plugin will create a table of content for the sub-heading of the current heading level.
